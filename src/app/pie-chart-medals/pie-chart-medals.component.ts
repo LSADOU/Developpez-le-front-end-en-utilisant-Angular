@@ -4,9 +4,10 @@ import { OlympicService } from '../core/services/olympic.service';
 import { OlympicCountry } from '../core/models/OlympicCountry';
 
 @Component({
-  selector: 'app-pie-chart-medals',
-  templateUrl: './pie-chart-medals.component.html',
-  styleUrls: ['./pie-chart-medals.component.scss']
+    selector: 'app-pie-chart-medals',
+    templateUrl: './pie-chart-medals.component.html',
+    styleUrls: ['./pie-chart-medals.component.scss'],
+    standalone: false
 })
 export class PieChartMedalsComponent implements OnInit {
   data: { name: string; value: number }[] = [];
