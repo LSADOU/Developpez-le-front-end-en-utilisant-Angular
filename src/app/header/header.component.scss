@@ -1,0 +1,12 @@
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #003366;          // bleu foncé
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 2rem 0;
+
+  // effet léger de shadow pour le style
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
