@@ -21,15 +21,15 @@ h1 {
   height: 50px;
   border: 4px solid;
   border-radius: 50%;
-  margin: 0 -8px; /* chevauchement */
+  margin: 0 -12px; /* chevauchement */
   background: transparent;
 }
 
 /* Couleurs officielles */
 .ring.blue   { border-color: #0085C7; }
-.ring.yellow { border-color: #F4C300; margin-top: 20px; } /* 2e ligne */
+.ring.yellow { border-color: #F4C300; margin-top: 28px; } /* 2e ligne */
 .ring.black  { border-color: #000000; }
-.ring.green  { border-color: #009F3D; margin-top: 20px; } /* 2e ligne */
+.ring.green  { border-color: #009F3D; margin-top: 28px; } /* 2e ligne */
 .ring.red    { border-color: #DF0024; }
 
 :host {

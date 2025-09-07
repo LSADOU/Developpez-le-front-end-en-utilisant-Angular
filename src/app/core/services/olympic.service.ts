@@ -11,6 +11,8 @@ import { Participation } from '../models/Participation';
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
   private olympicCountries$ = new BehaviorSubject<OlympicCountry[] | undefined>(undefined);
+  private nbCountry$ = new BehaviorSubject<number>(0);
+  private nbJO$ = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +20,8 @@ export class OlympicService {
 
     this.http.get<any[]>(this.olympicUrl).subscribe({
       next: (countriesJson) => {
+        let nbCountry : number = 0;
+        let yearsJO = new Set<string>();
         const countries: OlympicCountry[] = [];
         for (const country of countriesJson) {
           const participations : Participation[] = [];
@@ -29,22 +33,36 @@ export class OlympicService {
               medalsCount : participation.medalsCount,
               athleteCount : participation.athleteCount
             };
+            yearsJO.add(participation.year);
             participations.push(newParticipation);
           }
           const newCountry = new OlympicCountry(country.id, country.country, participations);
+          nbCountry ++;
           countries.push(newCountry);
         }
         this.olympicCountries$.next(countries);
+        this.nbCountry$.next(nbCountry) ;
+        this.nbJO$.next(yearsJO.size);
       },
       error: (err) => {
         console.error('Erreur en chargeant les données :', err);
         this.olympicCountries$.next(undefined);
+        this.nbCountry$.next(0) ;
+        this.nbJO$.next(0);
       }
     });
   }
   
   getOlympicCountries() {
     return this.olympicCountries$.asObservable();
+  }
+
+  getNbCountry() {
+    return this.nbCountry$.asObservable();
+  }
+
+  getNbJO() {
+    return this.nbJO$.asObservable();
   }
 
   getTotalMedalsByID(id: string): number {

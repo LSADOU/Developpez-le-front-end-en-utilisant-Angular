@@ -9,36 +9,41 @@ import { OlympicCountry } from '../core/models/OlympicCountry';
     styleUrls: ['./pie-chart-medals.component.scss'],
     standalone: false
 })
-export class PieChartMedalsComponent implements OnInit {
-  data: { name: string; value: number }[] = [];
-  view: [number, number] = [500, 400];
+export class PieChartMedalsComponent implements OnInit{
+ ;
 
-  showLegend = true;
+  data!: { name: string; value: number}[];
+  view: [number, number] = [800, 400];
+
+  showLegend = false;
   showLabels = true;
   doughnut = false;
 
-  nbCountry : number = 0;
-  nbOlympics : number = 0; 
+  nbCountry! : number;
+  nbOlympics! : number; 
 
-  constructor(private olympicService: OlympicService) {
-    olympicService.loadInitialData();
-  }
+  constructor( private olympicService: OlympicService ) {}
 
   ngOnInit(): void {
+    this.olympicService.loadInitialData();
     this.olympicService.getOlympicCountries().subscribe((countries: OlympicCountry[] | undefined) => {
       this.data = [];
-      console.log(this.data);
       if (countries) {
         for (const country of countries) {
           const c = {
             name: country.countryName,
             value: country.getTotalMedals()
           };
-        this.data.push(c);
+          this.data.push(c);
         }
       }
     });
-    this.nbCountry = this.data.length;
+    this.olympicService.getNbCountry().subscribe((nbCountry: number) => {
+      this.nbCountry = nbCountry;
+    });
+    this.olympicService.getNbJO().subscribe((nbJO: number) => {
+      this.nbOlympics = nbJO;
+    });
   }
 
   onClicOnCountry(event: any) {
