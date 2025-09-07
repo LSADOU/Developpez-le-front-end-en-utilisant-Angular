@@ -17,23 +17,29 @@ export class PieChartMedalsComponent implements OnInit {
   showLabels = true;
   doughnut = false;
 
-  constructor(private olympicService: OlympicService) {}
+  nbCountry : number = 0;
+  nbOlympics : number = 0; 
+
+  constructor(private olympicService: OlympicService) {
+    olympicService.loadInitialData();
+  }
 
   ngOnInit(): void {
-  this.olympicService.getOlympicCountries().subscribe((countries: OlympicCountry[] | undefined) => {
-    this.data = [];
-
-    if (countries) {
-      for (const country of countries) {
-        const c = {
-          name: country.countryName,
-          value: country.getTotalMedals()
-        };
+    this.olympicService.getOlympicCountries().subscribe((countries: OlympicCountry[] | undefined) => {
+      this.data = [];
+      console.log(this.data);
+      if (countries) {
+        for (const country of countries) {
+          const c = {
+            name: country.countryName,
+            value: country.getTotalMedals()
+          };
         this.data.push(c);
+        }
       }
-    }
-  });
-}
+    });
+    this.nbCountry = this.data.length;
+  }
 
   onClicOnCountry(event: any) {
     console.log('clic :', event);

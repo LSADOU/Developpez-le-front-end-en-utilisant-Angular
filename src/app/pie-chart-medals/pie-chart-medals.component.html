@@ -1,7 +1,23 @@
-<ngx-charts-pie-chart
-  [view]="view"
-  [results]="data"
-  [legend]="showLegend"
-  [labels]="showLabels"
-  [doughnut]="doughnut"
-  (select)="onClicOnCountry($event)"/>
+<div class="chart-wrapper">
+  <h2 class="chart-header">
+    Medals per country
+  </h2>
+
+  <div class="stats-container">
+    <div class="stat-box">
+      Number of countries <br/> {{this.nbCountry}}
+    </div>
+    <div class="stat-box">
+      Number of JO
+    </div>
+  </div>
+
+  <ngx-charts-pie-chart
+    [view]="view"
+    [results]="data"
+    [legend]="showLegend"
+    [labels]="showLabels"
+    [doughnut]="doughnut"
+    (select)="onClicOnCountry($event)">
+  </ngx-charts-pie-chart>
+</div>
