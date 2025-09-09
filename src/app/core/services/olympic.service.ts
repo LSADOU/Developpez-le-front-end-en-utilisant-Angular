@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { OlympicCountry } from '../models/OlympicCountry';
 import { Participation } from '../models/Participation';
 
@@ -64,12 +64,20 @@ export class OlympicService {
   getNbJO() {
     return this.nbJO$.asObservable();
   }
+  
 
-  getTotalMedalsByID(id: string): number {
+  getCountryById(id: string) {
+    return this.olympicCountries$.pipe(
+      map((countries : OlympicCountry[] | undefined) => countries?.find((c:OlympicCountry) => c.id == id))
+    );
+  }
+
+  getCountryByName(name: string): OlympicCountry |undefined{
     const countries = this.olympicCountries$.getValue();
-    if (!countries) return 0; 
-    const foundCountry : OlympicCountry | undefined = countries.find(c => c.id === id);
-    return foundCountry?.getTotalMedals() ?? 0;
+    if (!countries) {
+      return undefined;
+    }
+    return countries.find(c => c.countryName === name);
   }
 
 

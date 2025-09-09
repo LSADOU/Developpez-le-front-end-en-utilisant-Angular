@@ -1,7 +1,8 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OlympicService } from '../core/services/olympic.service';
 import { OlympicCountry } from '../core/models/OlympicCountry';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-pie-chart-medals',
@@ -22,7 +23,10 @@ export class PieChartMedalsComponent implements OnInit{
   nbCountry! : number;
   nbOlympics! : number; 
 
-  constructor( private olympicService: OlympicService ) {}
+  constructor( 
+    private olympicService: OlympicService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.olympicService.loadInitialData();
@@ -32,7 +36,8 @@ export class PieChartMedalsComponent implements OnInit{
         for (const country of countries) {
           const c = {
             name: country.countryName,
-            value: country.getTotalMedals()
+            value: country.getTotalMedals(),
+            id: country.id
           };
           this.data.push(c);
         }
@@ -47,6 +52,11 @@ export class PieChartMedalsComponent implements OnInit{
   }
 
   onClicOnCountry(event: any) {
-    console.log('clic :', event);
+    const countryClicked = this.olympicService.getCountryByName(event["name"]);
+    if (countryClicked) {
+      this.router.navigateByUrl('details/' + countryClicked.id);
+    } else {
+      console.warn("Pays non trouvé ou liste pas encore chargée");
+    }
   }
 }

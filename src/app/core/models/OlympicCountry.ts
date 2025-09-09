@@ -24,4 +24,12 @@ export class OlympicCountry {
     }
     return totalMedals;
   }
+
+  getTotalAthletes(): number {
+    let totalAthletes: number = 0;
+    for (let participation of this.participations) {
+      totalAthletes += participation.athleteCount;
+    }
+    return totalAthletes;
+  }
 }

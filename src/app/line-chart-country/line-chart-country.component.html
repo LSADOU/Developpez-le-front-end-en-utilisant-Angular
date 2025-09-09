@@ -1,0 +1,32 @@
+<div class="chart-wrapper">
+  <h2 class="chart-header">
+    {{country.countryName}}
+  </h2>
+
+  <div class="stats-container">
+    <div class="stat-box">
+      Number of entries <br/> {{nbOlympics}}
+    </div>
+    <div class="stat-box">
+      Total number medals<br/> {{nbMedals}}
+    </div>
+    <div class="stat-box">
+      Total number of athletes <br/> {{nbAthletes}}
+    </div>
+  </div>
+
+  <ngx-charts-line-chart
+    [view]="view"
+    [results]="data"
+    [scheme]="'vivid'"
+    [legend]="showLegend"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [autoScale]="true"
+    [xAxisTickFormatting]="xAxisTickFormatting"
+    [yAxisTickFormatting]="yAxisTickFormatting"/>
+</div>
