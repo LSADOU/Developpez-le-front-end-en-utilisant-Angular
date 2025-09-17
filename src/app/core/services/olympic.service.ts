@@ -72,13 +72,11 @@ export class OlympicService {
     );
   }
 
-  getCountryByName(name: string): OlympicCountry |undefined{
+  getCountryByName(name: string): OlympicCountry | undefined{
     const countries = this.olympicCountries$.getValue();
     if (!countries) {
       return undefined;
     }
     return countries.find(c => c.countryName === name);
   }
-
-
 }

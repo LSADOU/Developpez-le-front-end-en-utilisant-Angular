@@ -2,7 +2,6 @@
   <h2 class="chart-header">
     {{country.countryName}}
   </h2>
-
   <div class="stats-container">
     <div class="stat-box">
       Number of entries <br/> {{nbOlympics}}
@@ -14,9 +13,10 @@
       Total number of athletes <br/> {{nbAthletes}}
     </div>
   </div>
+</div>
 
+<div class="chart-container">
   <ngx-charts-line-chart
-    [view]="view"
     [results]="data"
     [scheme]="'vivid'"
     [legend]="showLegend"
@@ -28,5 +28,6 @@
     [yAxisLabel]="yAxisLabel"
     [autoScale]="true"
     [xAxisTickFormatting]="xAxisTickFormatting"
-    [yAxisTickFormatting]="yAxisTickFormatting"/>
+    [yAxisTickFormatting]="yAxisTickFormatting">
+  </ngx-charts-line-chart>
 </div>

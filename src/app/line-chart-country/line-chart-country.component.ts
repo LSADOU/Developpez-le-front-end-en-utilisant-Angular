@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { OlympicCountry } from '../core/models/OlympicCountry';
 import { OlympicService } from '../core/services/olympic.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-line-chart-country',
@@ -9,12 +10,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './line-chart-country.component.scss',
   standalone: false
 })
-export class LineChartCountryComponent implements OnInit{
+export class LineChartCountryComponent implements OnInit, OnDestroy{
   country! : OlympicCountry;
   nbOlympics! : number;
   nbMedals! : number;
   nbAthletes! : number;
 
+  private subscriptions: Subscription[] = [];
   data!: { name: string; series: {name:number,value:number}[] }[];
   view: [number, number] = [800, 400];
   showXAxis = true;
@@ -35,7 +37,7 @@ export class LineChartCountryComponent implements OnInit{
   ngOnInit(): void {
     const countryId : string = this.route.snapshot.params["id"];
     this.olympicService.loadInitialData();
-    this.olympicService.getCountryById(countryId).subscribe((country: OlympicCountry | undefined) => {
+    this.subscriptions.push(this.olympicService.getCountryById(countryId).subscribe((country: OlympicCountry | undefined) => {
       if (!country) {
         console.log('Pays non trouvé id:',countryId);
       } else {
@@ -54,6 +56,10 @@ export class LineChartCountryComponent implements OnInit{
         }
         this.data.push({name: "medal won according JO's year", series: s});
       }
-    });
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

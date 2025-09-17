@@ -1,8 +1,9 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OlympicService } from '../core/services/olympic.service';
 import { OlympicCountry } from '../core/models/OlympicCountry';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-pie-chart-medals',
@@ -10,11 +11,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./pie-chart-medals.component.scss'],
     standalone: false
 })
-export class PieChartMedalsComponent implements OnInit{
+export class PieChartMedalsComponent implements OnInit,OnDestroy{
  ;
 
   data!: { name: string; value: number}[];
   view: [number, number] = [800, 400];
+  private subscriptions: Subscription[] = [];
 
   showLegend = false;
   showLabels = true;
@@ -30,7 +32,7 @@ export class PieChartMedalsComponent implements OnInit{
 
   ngOnInit(): void {
     this.olympicService.loadInitialData();
-    this.olympicService.getOlympicCountries().subscribe((countries: OlympicCountry[] | undefined) => {
+    this.subscriptions.push(this.olympicService.getOlympicCountries().subscribe((countries: OlympicCountry[] | undefined) => {
       this.data = [];
       if (countries) {
         for (const country of countries) {
@@ -42,16 +44,20 @@ export class PieChartMedalsComponent implements OnInit{
           this.data.push(c);
         }
       }
-    });
-    this.olympicService.getNbCountry().subscribe((nbCountry: number) => {
+    }));
+    this.subscriptions.push(this.olympicService.getNbCountry().subscribe((nbCountry: number) => {
       this.nbCountry = nbCountry;
-    });
-    this.olympicService.getNbJO().subscribe((nbJO: number) => {
+    }));
+    this.subscriptions.push(this.olympicService.getNbJO().subscribe((nbJO: number) => {
       this.nbOlympics = nbJO;
-    });
+    }));
   }
 
-  onClicOnCountry(event: any) {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  onClicOnCountry(event:{ name: string; value: number; label?: string }) {
     const countryClicked = this.olympicService.getCountryByName(event["name"]);
     if (countryClicked) {
       this.router.navigateByUrl('details/' + countryClicked.id);

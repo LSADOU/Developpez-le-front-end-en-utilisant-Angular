@@ -2,7 +2,6 @@
   <h2 class="chart-header">
     Medals per country
   </h2>
-
   <div class="stats-container">
     <div class="stat-box">
       Number of countries <br/> {{this.nbCountry}}
@@ -11,9 +10,9 @@
       Number of JO <br/> {{this.nbOlympics}}
     </div>
   </div>
-
+</div>
+<div class="chart-container">
   <ngx-charts-pie-chart
-    [view]="view"
     [results]="data"
     [legend]="showLegend"
     [labels]="showLabels"

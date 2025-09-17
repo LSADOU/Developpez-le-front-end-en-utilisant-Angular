@@ -17,8 +17,10 @@
 
 .stats-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px; 
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
+  justify-content: center;
 }
 
 .stat-box {
@@ -29,4 +31,11 @@
   color: #1d428a;
   text-align: center;
   min-width: 160px;
+}
+
+.chart-container {
+  max-width: 800px;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 100%;
 }
